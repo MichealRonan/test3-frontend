@@ -1,10 +1,10 @@
 const mode = 0;
 
 const host_local = "http://localhost:8080";
-const host_remote = "https://ducks-service-???.onrender.com";
+const host_remote = "https://test3-latest-kiii.onrender.com";
 
 function getHost() {
-    return (mode == 0) ? host_local : host_remote;
+    return (mode === 0) ? host_local : host_remote;
 }
 
 function isLoggedIn() {
@@ -51,10 +51,10 @@ async function updateTheNavigationBar() {
 
 
 async function signup() {
-    let email = document.getElementById("email").value;
+    let email = document.getElementById("emails").value;
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
-    let customer = {email:email, username: username, password: password}
+    let customer = {username: username, password: password, email:email}
     let request = {
         method: "POST",
         headers: {
@@ -82,8 +82,8 @@ async function signup() {
 
 
 async function login() {    
-    let username = document.getElementById("username").value;
-    let password = document.getElementById("password").value;
+    let username = document.getElementById("user").value;
+    let password = document.getElementById("pass").value;
     let customer = {username: username, password: password}
     let request = {
         method: "POST",

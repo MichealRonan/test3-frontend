@@ -57,14 +57,18 @@
     </form>
 
     <div id="list" class="cards"></div>
-
+    <script src="configuration.js"></script>
     <script>
-      let host = "http://localhost:8080";
+      let host = getHost();
       let questions = [];
       displayTheQuestions();
 
       async function getAll() {
-        let response = await fetch(host + "/questions");
+        let response = await fetch(host + "/questions", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
         let result = await response.json();
         return result;
       }
@@ -82,7 +86,7 @@
           div.className = "card";
           let innerHtml = `
          
-        <img src="http://localhost:8080/questions/${question.id}/image" alt="question" style="width:100%">
+        <img src="${getHost()}/questions/${question.id}/image" alt="question" style="width:100%">
         <div class="container">
           <h4><b>${question.id}</b></h4> 
           <p>${question.description}</p>
@@ -133,10 +137,15 @@
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token")
           },
           body: JSON.stringify(question),
         };
-        let response = await fetch(host + "/questions", request);
+        let response = await fetch(host + "/questions", request, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
         if (response.status == 200) {
           let id = await response.json();
           let result = await submitTheImage(id, imageFile);
@@ -163,7 +172,12 @@
         };
         let response = await fetch(
           host + "/questions/" + id + "/image",
-          request
+          request ,
+                {
+                  headers: {
+                    Authorization: "Bearer " + localStorage.getItem("token"),
+                  }
+                }
         );
         let result = await response.json();
         return result;
